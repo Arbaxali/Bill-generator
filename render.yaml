@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: free-gst-billing
+    runtime: node
+    plan: starter
+    buildCommand: npm ci && npm run build
+    startCommand: node server.js
+    healthCheckPath: /api/health
+    numInstances: 1
+    disk:
+      name: fgsb-data
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: FGSB_PUBLIC_DEPLOYMENT
+        value: "1"
+      - key: FGSB_HOME
+        value: /data
+      - key: FGSB_AUTH_PASSWORD
+        generateValue: true
+      - key: FGSB_SESSION_SECRET
+        generateValue: true
